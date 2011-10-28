@@ -123,6 +123,31 @@ ability to merge or do conflict resolution. When you pull, you are overwriting
 your local file with whatever is on the server. When you push, you are 
 overwriting the server's version with your local file.
 
+Examples for the Impatient
+**************************
+
+Pull all your custom dashboards from the server and download them to a 
+directory::
+
+    $ dog dashboard pull_all ./my_dashboards
+
+Pull a single dashboard (in this case with ID=1000) from the server to a file::
+
+    $ dog dashboard pull 1000 ./my_dashboard.json
+
+Update a server's dashboard from a dashboard file::
+
+    $ dog dashboard push ./my_dashboard.json
+
+Check out the dashboard in a web browser to see if it looks like you expect::
+
+    $ dog dashboard web_view ./my_dashboard.json
+
+Create a new dashboard file skeleton::
+
+    $ dog dashboard new_file ./another_dashboard.json
+
+
 Getting Started
 ***************
 
