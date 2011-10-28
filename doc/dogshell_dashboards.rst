@@ -105,14 +105,105 @@ graph definitions and how they work, please see DataDog's
 Edit Dashboards
 ---------------
 
+Dog also allows you to edit dashboards via the commandline. Creating and 
+updating in this manner is best for automated processes. If you want to manage
+your organization's dashboards using files that you manually edit, please jump
+down to :ref:`manage-local`.
+
 Create
 ******
+
+You specify the title, description, and graphs in the call, or you can just 
+specify title and description, entering the graphs on stdin (ending with 
+Ctrl-D)::
+
+    $ dog dashboard post "My Dashboard Title" "A description of my dashboard."
+    [
+      {
+        "definition": {
+          "events": [
+            {
+              "q": "events{web}"
+            }
+          ],
+          "requests": [
+            {
+              "q": "system.load.1{web}by{host}"
+            }
+          ]
+        },
+        "title": "1-min Load (by host)"
+      },
+      {
+        "definition": {
+          "events": [
+            {
+              "q": "events{env:staging}"
+            }
+          ],
+          "requests": [
+            {
+              "q": "system.cpu.user{env:staging} by {host}"
+            }
+          ],
+          "viz": "timeseries"
+        },
+        "title": "CPU in the environment"
+      }
+    ]
+
 
 Update
 ******
 
+Updating works similarly to creating, except that you also have to specify the
+ID of the dashboard that you want to update (say it's 1000 in this case)::
+
+    $ dog dashboard update 1000 "My Changed Dashboard Title" "My changed description"
+    [
+      {
+        "definition": {
+          "events": [
+            {
+              "q": "events{web}"
+            }
+          ],
+          "requests": [
+            {
+              "q": "system.load.1{web}by{host}"
+            }
+          ]
+        },
+        "title": "1-min Load (by host)"
+      },
+      {
+        "definition": {
+          "events": [
+            {
+              "q": "events{env:staging}"
+            }
+          ],
+          "requests": [
+            {
+              "q": "system.cpu.user{env:staging} by {host}"
+            }
+          ],
+          "viz": "timeseries"
+        },
+        "title": "CPU in the environment"
+      }
+    ]
+
+
 Delete
 ******
+
+To delete a dashboard (with an ID of 1000 in this example), use::
+
+    $ dog dashboard delete 1000
+
+
+.. _manage-local:
 
 Manage from Local Files
 -----------------------
@@ -230,10 +321,10 @@ Pulling a Single Dashboard
 **************************
 
 Suppose someone has created a dashboard through the web UI that you need to
-download into a file. By looking at the URL, you know that its ID is 1070. To
+download into a file. By looking at the URL, you know that its ID is 1000. To
 pull that down to a file, you can do the following::
 
-    $ dog dashboard pull 1070 ./a_dashboard.json
+    $ dog dashboard pull 1000 ./a_dashboard.json
 
 You can also use this method to update an existing dashboard file with contents
 from the server. Again, there is no merging, so it will simply overwrite
@@ -258,9 +349,9 @@ Deleting
 ********
 
 Deleting a file locally has no affect on what is on the server. You can only 
-delete a dashboard (say with a dashboard ID of 1070) on the server by doing::
+delete a dashboard (say with a dashboard ID of 1000) on the server by doing::
 
-    $ dog dashboard delete 1070
+    $ dog dashboard delete 1000
 
 Once you've deleted a dashboard on the server, any attempt to push to it from a 
 file will fail.
