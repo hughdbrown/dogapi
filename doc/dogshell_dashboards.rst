@@ -7,8 +7,11 @@ any cloned copies of them). If you're using it interactively, you'll often want
 to use `dog`'s `--pretty` option. This will format the JSON in a way that is
 properly indented and easy to read. Passing the `--raw` flag will  cause dog to
 always return a JSON response as a single line. If you do not specify one of
-these, `dog` will by default output either a  tab-delimited CSV format for
+these, `dog` will by default output either a tab-delimited CSV format for
 simpler data, or a single-line JSON blob for more complex data.
+
+If you're going to be authoring dashboards, please read through DataDog's
+`Graph Primer <http://help.datadoghq.com/kb/graphs-dashboards/graph-primer>`_
 
 View Dashboards
 ---------------
