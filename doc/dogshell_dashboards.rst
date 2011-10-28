@@ -139,6 +139,10 @@ Update a server's dashboard from a dashboard file::
 
     $ dog dashboard push ./my_dashboard.json
 
+Update multiple dashboards from files::
+
+    $ dog dashboard push ./my_dashboard.json ./my_other_dashboard.json ./dashes/*.json
+
 Check out the dashboard in a web browser to see if it looks like you expect::
 
     $ dog dashboard web_view ./my_dashboard.json
@@ -147,6 +151,9 @@ Create a new dashboard file skeleton::
 
     $ dog dashboard new_file ./another_dashboard.json
 
+Don't forget to look at DataDog's 
+`Graph Primer <http://help.datadoghq.com/kb/graphs-dashboards/graph-primer>`_
+for how to edit dashboard graph definitions!
 
 Getting Started
 ***************
@@ -183,61 +190,77 @@ that are updated manually.
 Pushing Updates
 ***************
 
+Since a locally downloaded dashboard file knows its own ID and where it belongs
+on the server, all you have to do in order to push an update to the server is::
+
+    $ dog dashboard push ./my_dashboard.json
+
+Note that this will cause an error if you've deleted the corresponding dashboard
+from the server. If that happens, you can create a new dashboard with 
+`dog dashboard new_file ./new_dashboard.json`. You can then take its ID, copy it
+into your old dashboard file, and then delete the new one you just generated.
+
+You can upload multiple dashboards::
+
+    $ dog dashboard push ./dash1.json ./dash2.json ./dashboards/*.json
+
+There is no atomicity guarantee when updating a group of dashboards. If you have
+an error with broken JSON in some of your files, some of your dashboards will be
+updated and some won't.
+
 Adding New Dashboards
 *********************
-Via both new_file and pulling something someone created on the server.
+
+Add a new dashboard with::
+
+    $ dog dashboard new_file ./another_dashboard.json
+
+What this does behind the scenes is:
+
+1. Create an empty dashboard on the server.
+2. Download that dashboard to the file you specify.
+
+The reason for the server roundtrip is so that the dashboard file can have an ID
+that we can push updates to later. One consequence of that is that dashboard
+will show up on the server as a blank piece as soon as you run this command, and
+will remain that way until you update it with more meaningful content and do a
+push.
+
+Pulling a Single Dashboard
+**************************
+
+Suppose someone has created a dashboard through the web UI that you need to
+download into a file. By looking at the URL, you know that its ID is 1070. To
+pull that down to a file, you can do the following::
+
+    $ dog dashboard pull 1070 ./a_dashboard.json
+
+You can also use this method to update an existing dashboard file with contents
+from the server. Again, there is no merging, so it will simply overwrite
+anything that was in the file previously.
 
 Viewing Your Changes
 ********************
 
-Deleting Files
-**************
+For platforms that have a web browser defined, you can quickly view a dashboard
+file's corresponding URL by doing::
 
+    $ dog dashboard web_view ./some_dashboard.json
 
+Keep in mind that this goes to the server, so it may not be in sync with the 
+contents of your file. As part of your editing workflow, you'll probably want to
+do something like::
 
+    $ dog dashboard push ./some_dashboard.json
+    $ dog dashboard web_view ./some_dashboard.json
 
+Deleting
+********
 
+Deleting a file locally has no affect on what is on the server. You can only 
+delete a dashboard (say with a dashboard ID of 1070) on the server by doing::
 
+    $ dog dashboard delete 1070
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Once you've deleted a dashboard on the server, any attempt to push to it from a 
+file will fail.
