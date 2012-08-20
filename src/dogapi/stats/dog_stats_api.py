@@ -53,7 +53,7 @@ class DogStatsApi(object):
         self.device = device
         self._disabled = disabled
 
-        self.host = host or socket.gethostname()
+        self.host = host or socket.getfqdn()
         if use_ec2_instance_ids:
             self.host = get_ec2_instance_id()
 

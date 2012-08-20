@@ -51,7 +51,7 @@ class BaseDatadog(object):
         self.application_key = application_key
         self.timeout = timeout
         self.swallow = swallow
-        self._default_host = socket.gethostname()
+        self._default_host = socket.getfqdn()
         self._use_ec2_instance_id = None
         self.use_ec2_instance_id = use_ec2_instance_id
         self.json_responses = json_responses
