@@ -25,7 +25,6 @@ setup(
     tests_require = [
         'pep8',
         'pylint',
-        'pyflakes',
         'nose',
     ],
     entry_points={
