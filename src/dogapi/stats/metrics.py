@@ -39,6 +39,7 @@ class Gauge(Metric):
     def flush(self, timestamp):
         return [(timestamp, self.value, self.name, self.tags)]
 
+
 class Counter(Metric):
     """ A counter metric. """
 
@@ -86,10 +87,10 @@ class Histogram(Metric):
         if not self.count:
             return []
         metrics = [
-            (timestamp, self.min,       '%s.min'   % self.name, self.tags),
-            (timestamp, self.max,       '%s.max'   % self.name, self.tags),
-            (timestamp, self.count,     '%s.count' % self.name, self.tags),
-            (timestamp, self.average(), '%s.avg'   % self.name, self.tags)
+            (timestamp, self.min, '%s.min' % self.name, self.tags),
+            (timestamp, self.max, '%s.max' % self.name, self.tags),
+            (timestamp, self.count, '%s.count' % self.name, self.tags),
+            (timestamp, self.average(), '%s.avg' % self.name, self.tags)
         ]
         length = len(self.samples)
         self.samples.sort()
@@ -129,4 +130,3 @@ class MetricsAggregator(object):
             for m in list(self._metrics.pop(i).values()):
                 metrics += m.flush(i)
         return metrics
-

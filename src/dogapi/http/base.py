@@ -33,6 +33,7 @@ __all__ = [
     'BaseDatadog'
 ]
 
+
 class BaseDatadog(object):
     def __init__(self, api_key=None, application_key=None, api_version='v1', api_host=None, timeout=2, max_timeouts=3, backoff_period=300, swallow=True, use_ec2_instance_id=False, json_responses=False):
 
@@ -218,4 +219,3 @@ class BaseDatadog(object):
         backed_off_time = now - self._backoff_timestamp
         backoff_time_left = self.backoff_period - backed_off_time
         return round(backed_off_time, 2), round(backoff_time_left, 2)
-

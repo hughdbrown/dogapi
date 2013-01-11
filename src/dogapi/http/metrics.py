@@ -15,7 +15,6 @@ logger = logging.getLogger('dd.dogapi')
 class HttpMetricApi(object):
     default_metric_type = MetricType.Gauge
 
-
     def metric(self, name, points, host=None, device=None, tags=None, metric_type=MetricType.Gauge):
         """
         Submit a point or series of *points* to the metric API, optionally specifying a *host*
@@ -36,12 +35,12 @@ class HttpMetricApi(object):
             points = [points]
 
         return self.metrics([{
-            'metric':   name,
-            'points':   [[ts, val] for ts, val in points],
-            'type':     metric_type,
-            'host':     host,
-            'device':   device,
-            'tags' : tags
+            'metric': name,
+            'points': [[ts, val] for ts, val in points],
+            'type': metric_type,
+            'host': host,
+            'device': device,
+            'tags': tags
         }])
 
     def metrics(self, metrics):
@@ -56,5 +55,5 @@ class HttpMetricApi(object):
 
     def _submit_metrics(self, metrics):
         logger.debug("flushing metrics over http.")
-        request = { "series": metrics }
+        request = {"series": metrics}
         return self.http_request('POST', '/series', request)

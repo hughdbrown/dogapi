@@ -2,6 +2,7 @@ __all__ = [
     'AlertApi',
 ]
 
+
 class AlertApi(object):
 
     def alert(self, query, name=None, message=None, silenced=False):
@@ -15,7 +16,7 @@ class AlertApi(object):
         >>> dog_http_api.alert("sum(last_1d):sum:system.net.bytes_rcvd{host:host0} > 100")
         """
         body = {
-            'query':  query,
+            'query': query,
             'silenced': silenced,
         }
         if name:
@@ -24,8 +25,8 @@ class AlertApi(object):
             body['message'] = message
 
         return self.http_request('POST', '/alert', body,
-            response_formatter=lambda x: x['id'],
-        )
+                                 response_formatter=lambda x: x['id'],
+                                 )
 
     def update_alert(self, alert_id, query, name=None, message=None, silenced=False):
         """
@@ -39,7 +40,7 @@ class AlertApi(object):
         >>> dog_http_api.update_alert(1234, "sum(last_1d):sum:system.net.bytes_rcvd{host:host0} > 100")
         """
         body = {
-            'query':  query,
+            'query': query,
             'silenced': silenced,
         }
         if name:
@@ -48,8 +49,8 @@ class AlertApi(object):
             body['message'] = message
 
         return self.http_request('PUT', '/alert/%s' % alert_id, body,
-            response_formatter=lambda x: x['id'],
-        )
+                                 response_formatter=lambda x: x['id'],
+                                 )
 
     def get_alert(self, alert_id):
         """
@@ -77,8 +78,8 @@ class AlertApi(object):
         """
 
         return self.http_request('GET', '/alert',
-            response_formatter=lambda x: x['alerts'],
-        )
+                                 response_formatter=lambda x: x['alerts'],
+                                 )
 
     def mute_alerts(self):
         """

@@ -2,6 +2,7 @@ __all__ = [
     'InfrastructureApi',
 ]
 
+
 class InfrastructureApi(object):
     def search(self, query):
         """
@@ -19,8 +20,8 @@ class InfrastructureApi(object):
         }
         """
         return self.http_request('GET', '/search', q=query,
-            response_formatter=lambda x: x['results'],
-        )
+                                 response_formatter=lambda x: x['results'],
+                                 )
 
     def all_tags(self):
         """
@@ -30,8 +31,8 @@ class InfrastructureApi(object):
         [ { 'tag1': [ 'host1', 'host2', ... ] }, ... ]
         """
         return self.http_request('GET', '/tags/hosts',
-            response_formatter=lambda x: x['tags'],
-        )
+                                 response_formatter=lambda x: x['tags'],
+                                 )
 
     def host_tags(self, host_id):
         """
@@ -43,8 +44,8 @@ class InfrastructureApi(object):
         ['database', 'env:test']
         """
         return self.http_request('GET', '/tags/hosts/' + str(host_id),
-            response_formatter=lambda x: x['tags'],
-        )
+                                 response_formatter=lambda x: x['tags'],
+                                 )
 
     def add_tags(self, host_id, *tags):
         """add_tags(host_id, tag1, [tag2, [...]])
@@ -57,8 +58,8 @@ class InfrastructureApi(object):
             'tags': tags,
         }
         return self.http_request('POST', '/tags/hosts/' + str(host_id), body,
-            response_formatter=lambda x: x['tags'],
-        )
+                                 response_formatter=lambda x: x['tags'],
+                                 )
 
     def change_tags(self, host_id, *tags):
         """change_tags(host_id, tag1, [tag2, [...]])
@@ -71,8 +72,8 @@ class InfrastructureApi(object):
             'tags': tags
         }
         return self.http_request('PUT', '/tags/hosts/' + str(host_id), body,
-            response_formatter=lambda x: x['tags'],
-        )
+                                 response_formatter=lambda x: x['tags'],
+                                 )
 
     def detach_tags(self, host_id):
         """

@@ -7,6 +7,7 @@ try:
 except ImportError:
     import json
 
+
 class DashApi(object):
     def dashboard(self, dash_id):
         """
@@ -16,8 +17,8 @@ class DashApi(object):
         dashboard data format.
         """
         return self.http_request('GET', '/dash/' + str(dash_id),
-            response_formatter=lambda x: x['dash'],
-        )
+                                 response_formatter=lambda x: x['dash'],
+                                 )
 
     def dashboards(self):
         """
@@ -27,9 +28,8 @@ class DashApi(object):
         dashboard data format.
         """
         return self.http_request('GET', '/dash',
-            response_formatter=lambda x: x['dashes'],
-        )
-
+                                 response_formatter=lambda x: x['dashes'],
+                                 )
 
     def create_dashboard(self, title, description, graphs):
         """
@@ -46,8 +46,8 @@ class DashApi(object):
             'graphs': graphs
         }
         return self.http_request('POST', '/dash', body,
-            response_formatter=lambda x: x['dash']['id'],
-        )
+                                 response_formatter=lambda x: x['dash']['id'],
+                                 )
 
     def update_dashboard(self, dash_id, title, description, graphs):
         """
@@ -65,8 +65,8 @@ class DashApi(object):
             'graphs': graphs
         }
         return self.http_request('PUT', '/dash/' + str(dash_id), body,
-            response_formatter=lambda x: x['dash']['id'],
-        )
+                                 response_formatter=lambda x: x['dash']['id'],
+                                 )
 
     def delete_dashboard(self, dash_id):
         """

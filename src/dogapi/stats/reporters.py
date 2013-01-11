@@ -20,6 +20,7 @@ class HttpReporter(Reporter):
     def flush(self, metrics):
         self.dog.metrics(metrics)
 
+
 class GraphiteReporter(Reporter):
 
     def flush(self, metrics):

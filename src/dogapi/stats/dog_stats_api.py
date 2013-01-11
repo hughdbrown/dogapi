@@ -14,7 +14,7 @@ from time import time
 from dogapi.common import get_ec2_instance_id
 from dogapi.constants import MetricType
 from dogapi.stats.metrics import MetricsAggregator, Counter, Gauge, Histogram
-from dogapi.stats.statsd  import StatsdAggregator
+from dogapi.stats.statsd import StatsdAggregator
 from dogapi.stats.reporters import HttpReporter
 
 
@@ -30,18 +30,18 @@ class DogStatsApi(object):
         self._disabled = True
 
     def start(self, api_key=None,
-                    flush_interval=10,
-                    roll_up_interval=10,
-                    host=None,
-                    device=None,
-                    api_host=None,
-                    use_ec2_instance_ids=False,
-                    flush_in_thread=True,
-                    flush_in_greenlet=False,
-                    disabled=False,
-                    statsd=False,
-                    statsd_host='localhost',
-                    statsd_port=8125):
+              flush_interval=10,
+              roll_up_interval=10,
+              host=None,
+              device=None,
+              api_host=None,
+              use_ec2_instance_ids=False,
+              flush_in_thread=True,
+              flush_in_greenlet=False,
+              disabled=False,
+              statsd=False,
+              statsd_host='localhost',
+              statsd_port=8125):
         """
         Configure the DogStatsApi instance and optionally, begin auto-flusing metrics.
 
@@ -94,7 +94,6 @@ class DogStatsApi(object):
             self._flush_thread.end()
             self._is_auto_flushing = False
             return True
-
 
     def gauge(self, metric_name, value, timestamp=None, tags=None, sample_rate=1):
         """
@@ -227,12 +226,12 @@ class DogStatsApi(object):
         metrics = []
         for timestamp, value, name, tags in rolled_up_metrics:
             metric = {
-                'metric' : name,
-                'points' : [[timestamp, value]],
-                'type':    MetricType.Gauge,
-                'host':    self.host,
-                'device':  self.device,
-                'tags'  :  tags
+                'metric': name,
+                'points': [[timestamp, value]],
+                'type': MetricType.Gauge,
+                'host': self.host,
+                'device': self.device,
+                'tags': tags
             }
             metrics.append(metric)
         return metrics
@@ -268,6 +267,7 @@ class DogStatsApi(object):
 
         import gevent
         # A small helper for flushing.
+
         def flush():
             while True:
                 try:
@@ -282,5 +282,3 @@ class DogStatsApi(object):
 
         log.info("Starting flush greenlet with interval %s." % self.flush_interval)
         gevent.spawn(flush)
-
-

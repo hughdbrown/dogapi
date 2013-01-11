@@ -1,7 +1,9 @@
-import time, datetime
+import time
+import datetime
 import socket
 
 from dogshell.common import report_errors, report_warnings, CommandLineClient
+
 
 class MetricClient(CommandLineClient):
 
@@ -20,6 +22,7 @@ class MetricClient(CommandLineClient):
     def _post(self, args):
         self.dog.timeout = args.timeout
         if args.localhostname:
+            # E0602: 25:MetricClient._post: Undefined variable 'find_localhost'
             host = find_localhost()
         else:
             host = args.host

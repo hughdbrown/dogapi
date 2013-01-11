@@ -7,6 +7,7 @@ except ImportError:
 
 from dogshell.common import report_errors, report_warnings, CommandLineClient
 
+
 class CommentClient(CommandLineClient):
 
     def setup_parser(self, subparsers):
@@ -137,7 +138,7 @@ class CommentClient(CommandLineClient):
             print('id\t\t' + str(res['event']['id']))
             print('url\t\t' + res['event']['url'])
             print('resource\t' + res['event']['resource'])
-            #print 'handle\t\t' + res['event']['handle']
+            # print 'handle\t\t' + res['event']['handle']
             print('message\n' + message)
         elif format == 'raw':
             print(json.dumps(res))
@@ -145,7 +146,7 @@ class CommentClient(CommandLineClient):
             print('id\t\t' + str(res['event']['id']))
             print('url\t\t' + res['event']['url'])
             print('resource\t' + res['event']['resource'])
-            #print 'handle\t\t' + res['event']['handle']
+            # print 'handle\t\t' + res['event']['handle']
             print('message\t\t' + res['event']['text'].__repr__())
 
     def _delete(self, args):

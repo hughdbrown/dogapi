@@ -17,4 +17,3 @@ class DogHttpApi(BaseDatadog, HttpMetricApi, EventApi, DashApi, InfrastructureAp
     The default timeout is 2 seconds, but that can be changed by setting the
     client's `timeout` attribute.
     """
-

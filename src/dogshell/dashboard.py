@@ -12,6 +12,7 @@ except ImportError:
 
 from dogshell.common import report_errors, report_warnings, CommandLineClient, print_err
 
+
 class DashClient(CommandLineClient):
 
     def setup_parser(self, subparsers):
@@ -43,7 +44,7 @@ class DashClient(CommandLineClient):
 
         pull_parser = verb_parsers.add_parser('pull', help='Pull a dashboard on the server into a local file')
         pull_parser.add_argument('dashboard_id', help='ID of dashboard to pull')
-        pull_parser.add_argument('filename', help='file to pull dashboard into') # , type=argparse.FileType('wb'))
+        pull_parser.add_argument('filename', help='file to pull dashboard into')  # , type=argparse.FileType('wb'))
         pull_parser.set_defaults(func=self._pull)
 
         pull_all_parser = verb_parsers.add_parser('pull_all', help='Pull all dashboards into files in a directory')
@@ -67,8 +68,6 @@ class DashClient(CommandLineClient):
         delete_parser = verb_parsers.add_parser('delete', help='Delete dashboards.')
         delete_parser.add_argument('dashboard_id', help='dashboard to delete')
         delete_parser.set_defaults(func=self._delete)
-
-
 
     def _pull(self, args):
         self._write_dash_to_file(args.dashboard_id, args.filename, args.timeout, args.format, args.string_ids)
@@ -110,7 +109,7 @@ class DashClient(CommandLineClient):
         self.dog.timeout = args.timeout
         format = args.format
         res = self.dog.create_dashboard(args.filename,
-                         "Description for {0}".format(args.filename), [])
+                                        "Description for {0}".format(args.filename), [])
         report_warnings(res)
         report_errors(res)
 
@@ -264,4 +263,3 @@ class DashClient(CommandLineClient):
 
     def _pretty_json(self, obj):
         return json.dumps(obj, sort_keys=True, indent=2)
-

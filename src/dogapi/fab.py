@@ -7,25 +7,27 @@ from dogapi import dog_http_api
 
 logger = logging.getLogger("fabric")
 
+
 def setup(api_key):
-    global dog_http_api
+    # global dog_http_api
     dog_http_api.api_key = api_key
+
 
 def human_duration(d):
     def pluralize(quantity, noun):
-        if quantity >= 2:
-            return "{0} {1}s".format(quantity, noun)
-        else:
-            return "{0} {1}".format(quantity, noun)
-    
-    if d < 1:
-        return "less than 1 second"
-    elif d < 60:
-        return "{0}".format(pluralize(int(d), "second"))
-    elif d >= 61 and d < 3600:
-        return "{0}".format(pluralize(d/60, "minute"))
+        return "{0} {1}{2}".format(quantity, noun, "s" if quantity >= 2 else "")
+
+    seconds = int(d)
+    h, m, s = seconds // 3600, (seconds // 60) % 60, seconds % 3600
+    if h and m:
+        return "{0} {1}".format(pluralize(h, "hour"), pluralize(m, "minute"))
+    elif m:
+        return "{0}".format(pluralize(m, "minute"))
+    elif s:
+        return "{0}".format(pluralize(s, "second"))
     else:
-        return "{0} {1}".format(pluralize(d/3600, "hour"), pluralize(d % 3600, "minute"))
+        return "less than 1 second"
+
 
 def notify(t):
     """Decorates a fabric task"""
@@ -36,9 +38,9 @@ def notify(t):
         if type(t) != WrappedCallableTask:
             logger.warn("@notify decorator only works on a new-style Fabric Task")
             notify_datadog = False
-        
+
         start = time.time()
-        
+
         try:
             r = t(*args, **kwargs)
             end = time.time()
@@ -56,7 +58,7 @@ def notify(t):
                 except:
                     logger.warn("Datadog notification failed but task {0} completed".format(t.wrapped.func_name))
             return r
-        except Exception, e:
+        except Exception as e:
             # If notification is on, create an error event
             end = time.time()
             duration = end - start
@@ -75,5 +77,3 @@ def notify(t):
             raise
 
     return WrappedCallableTask(wrapper)
-
-    

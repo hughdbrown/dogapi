@@ -7,6 +7,6 @@ logging.basicConfig(
     format="%(asctime)s %(levelname)s [%(name)s] %(message)s",
 )
 
-#FIXME matt: remove the 'dog' variable.
+# FIXME matt: remove the 'dog' variable.
 dog = dog_stats_api = DogStatsApi()
 dog_http_api = DogHttpApi()

@@ -5,6 +5,7 @@ except ImportError:
 
 from dogshell.common import report_errors, report_warnings, CommandLineClient
 
+
 class SearchClient(CommandLineClient):
 
     def setup_parser(self, subparsers):
@@ -27,7 +28,7 @@ class SearchClient(CommandLineClient):
                         print('\n')
                         print("%s\t%s" % (facet, result))
                     else:
-                        print("%s\t%s" % (' '*len(facet), result))
+                        print("%s\t%s" % (' ' * len(facet), result))
         elif format == 'raw':
             print(json.dumps(res))
         else:

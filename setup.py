@@ -8,6 +8,7 @@ if sys.version_info[0] == 2:
 reqs.append("decorator>=3.3.2")
 if [sys.version_info[0], sys.version_info[1]] < [2, 7]:
     reqs.append("argparse>=1.2")
+reqs.append("requests")
 
 setup(
     name = "dogapi",
@@ -21,6 +22,12 @@ setup(
     keywords = "datadog data",
     url = "http://www.datadoghq.com",
     install_requires = reqs,
+    tests_require = [
+        'pep8',
+        'pylint',
+        'pyflakes',
+        'nose',
+    ],
     entry_points={
         'console_scripts': [
             'dog = dogshell:main',

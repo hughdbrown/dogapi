@@ -1,4 +1,5 @@
-import datetime, time
+import datetime
+import time
 import re
 import sys
 
@@ -9,6 +10,7 @@ except ImportError:
 
 from dogshell.common import report_errors, report_warnings, CommandLineClient
 
+
 def prettyprint_event(event):
     title = event['title'] or ''
     handle = event.get('handle', '') or ''
@@ -16,18 +18,23 @@ def prettyprint_event(event):
     dt = datetime.datetime.fromtimestamp(date)
     link = event['url']
     print((title + ' (' + handle + ')').strip())
-    print(dt.isoformat(' ') + ' | '+ link)
+    print(dt.isoformat(' ') + ' | ' + link)
+
 
 def print_event(event):
     prettyprint_event(event)
 
+
 def prettyprint_event_details(event):
     prettyprint_event(event)
+
 
 def print_event_details(event):
     prettyprint_event(event)
 
 time_pat = re.compile(r'(?P<delta>[0-9]*\.?[0-9]+)(?P<unit>[mhd])')
+
+
 def parse_time(timestring):
     now = time.mktime(datetime.datetime.now().timetuple())
     if timestring is None:
@@ -47,8 +54,9 @@ def parse_time(timestring):
                 delta = delta * 60 * 60
             if unit == 'd':
                 delta = delta * 60 * 60 * 24
-            t =  now - int(delta)
+            t = now - int(delta)
     return int(t)
+
 
 class EventClient(CommandLineClient):
 
@@ -92,14 +100,14 @@ class EventClient(CommandLineClient):
         else:
             tags = None
         res = self.dog.event_with_response(args.title,
-                       message,
-                       args.date_happened,
-                       args.handle,
-                       args.priority,
-                       args.related_event_id,
-                       tags,
-                       args.host,
-                       args.device)
+                                           message,
+                                           args.date_happened,
+                                           args.handle,
+                                           args.priority,
+                                           args.related_event_id,
+                                           tags,
+                                           args.host,
+                                           args.device)
         report_warnings(res)
         report_errors(res)
         if format == 'pretty':

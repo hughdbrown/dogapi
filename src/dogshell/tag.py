@@ -7,6 +7,7 @@ except ImportError:
 
 from dogshell.common import report_errors, report_warnings, CommandLineClient
 
+
 class TagClient(CommandLineClient):
 
     def setup_parser(self, subparsers):

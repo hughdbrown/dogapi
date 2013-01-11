@@ -2,6 +2,7 @@ __all__ = [
     'EventApi',
 ]
 
+
 class EventApi(object):
     def stream(self, start, end, priority=None, sources=None, tags=None):
         """
@@ -46,9 +47,9 @@ class EventApi(object):
             params['tags'] = ','.join(tags)
 
         return self.http_request('GET', '/events',
-            response_formatter=lambda x: x['events'],
-            **params
-        )
+                                 response_formatter=lambda x: x['events'],
+                                 **params
+                                 )
 
     def get_event(self, id):
         """
@@ -77,8 +78,8 @@ class EventApi(object):
         }
         """
         return self.http_request('GET', '/events/' + str(id),
-            response_formatter=lambda x: x['event'],
-        )
+                                 response_formatter=lambda x: x['event'],
+                                 )
 
     def _event(self, title, text, date_happened=None, handle=None, priority=None, related_event_id=None, tags=None, host=None, device_name=None, aggregation_key=None, **kwargs):
         """
@@ -149,8 +150,8 @@ class EventApi(object):
         body.update(kwargs)
 
         return self.http_request('POST', '/events', body,
-            response_formatter=lambda x: x['event']['id'],
-        )
+                                 response_formatter=lambda x: x['event']['id'],
+                                 )
 
     def event(self, *args, **kwargs):
         """
@@ -199,23 +200,23 @@ class EventApi(object):
         >>> dog_http_api.comment("matt", "Hey! Something strange is going on.")
         """
         body = {
-            'handle':  handle,
+            'handle': handle,
             'message': message,
         }
         if related_event_id is not None:
             body['related_event_id'] = int(related_event_id)
         return self.http_request('POST', '/comments', body,
-            response_formatter=lambda x: x['comment']['id'],
-        )
+                                 response_formatter=lambda x: x['comment']['id'],
+                                 )
 
     def update_comment(self, handle, message, comment_id):
         body = {
-            'handle':  handle,
+            'handle': handle,
             'message': message,
         }
         return self.http_request('PUT', '/comments/%s' % comment_id, body,
-            response_formatter=lambda x: x['comment']['id'],
-        )
+                                 response_formatter=lambda x: x['comment']['id'],
+                                 )
 
     def delete_comment(self, comment_id):
         """

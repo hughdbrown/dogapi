@@ -18,6 +18,7 @@ except ImportError:
 
 from dogapi import DogHttpApi
 
+
 def print_err(msg):
     if is_p3k():
         print('ERROR: ' + msg + '\n', file=sys.stderr)
@@ -32,12 +33,14 @@ def report_errors(res):
         sys.exit(1)
     return False
 
+
 def report_warnings(res):
     if 'warnings' in res:
         for e in res['warnings']:
             print_err('WARNING: ' + e)
         return True
     return False
+
 
 class CommandLineClient(object):
     def __init__(self, config):
@@ -49,7 +52,6 @@ class CommandLineClient(object):
         if not self._dog:
             self._dog = DogHttpApi(self.config['apikey'], self.config['appkey'], swallow=True, json_responses=True)
         return self._dog
-
 
 
 class DogshellConfig(IterableUserDict):
@@ -93,8 +95,6 @@ class DogshellConfig(IterableUserDict):
                     print_err('\nExiting')
                     sys.exit(1)
 
-
             self['apikey'] = config.get('Connection', 'apikey')
             self['appkey'] = config.get('Connection', 'appkey')
         assert self['apikey'] is not None and self['appkey'] is not None
-        
